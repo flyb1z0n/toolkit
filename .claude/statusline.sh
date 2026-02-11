@@ -36,14 +36,22 @@ elif [ "$CONTEXT_USED" -ge 50 ]; then
 else
     CONTEXT_COLOR="0;32"  # green
 fi
-CONTEXT_INFO=$(printf "\033[${CONTEXT_COLOR}m%s%%\033[0m" "$CONTEXT_USED")
+
+# Build progress bar (10 chars wide)
+BAR_WIDTH=10
+FILLED=$(( CONTEXT_USED * BAR_WIDTH / 100 ))
+EMPTY=$(( BAR_WIDTH - FILLED ))
+BAR=""
+for ((i=0; i<FILLED; i++)); do BAR+="█"; done
+for ((i=0; i<EMPTY; i++)); do BAR+="░"; done
+CONTEXT_INFO=$(printf "\033[${CONTEXT_COLOR}m[%s] %s%%\033[0m" "$BAR" "$CONTEXT_USED")
 
 # Determine if git branch is too long (>30 chars) to put on new line
 BRANCH_LENGTH=${#GIT_BRANCH}
 if [ -n "$GIT_BRANCH" ] && [ "$BRANCH_LENGTH" -gt 30 ]; then
     # Long branch - put git info on separate line
-    printf "📁 \033[0;36m%s\033[0m\n%s\n🤖 \033[0;33m[%s]\033[0m  📊 %s" "$DIR_NAME" "$GIT_INFO" "$MODEL_DISPLAY" "$CONTEXT_INFO"
+    printf "📁 \033[0;36m%s\033[0m\n%s\n🤖 \033[0;33m[%s]\033[0m  🧠 %s" "$DIR_NAME" "$GIT_INFO" "$MODEL_DISPLAY" "$CONTEXT_INFO"
 else
     # Short branch or no git - keep on same line
-    printf "📁 \033[0;36m%s\033[0m%s\n🤖 \033[0;33m[%s]\033[0m  📊 %s" "$DIR_NAME" "$GIT_INFO" "$MODEL_DISPLAY" "$CONTEXT_INFO"
+    printf "📁 \033[0;36m%s\033[0m%s\n🤖 \033[0;33m[%s]\033[0m  🧠 %s" "$DIR_NAME" "$GIT_INFO" "$MODEL_DISPLAY" "$CONTEXT_INFO"
 fi
