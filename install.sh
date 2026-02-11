@@ -30,7 +30,6 @@ if [ -f "$STATUSLINE_SOURCE" ]; then
     case "$answer" in
       [yY]|[yY][eE][sS])
         ln -sf "$STATUSLINE_SOURCE" "$STATUSLINE_TARGET"
-        install_statusline=true
         NAMES+=("statusline.sh")
         STATUSES+=("installed")
         ;;
@@ -41,14 +40,16 @@ if [ -f "$STATUSLINE_SOURCE" ]; then
     esac
   fi
 
-  # Configure settings.json if statusline was just installed
-  if $install_statusline; then
+  # Ensure settings.json points to the correct statusline script
+  # (runs whenever the symlink is in place, not just on fresh install)
+  EXPECTED_CMD="~/.claude/statusline.sh"
+  if [ -L "$STATUSLINE_TARGET" ] && [ "$(readlink -f "$STATUSLINE_TARGET")" = "$(readlink -f "$STATUSLINE_SOURCE")" ]; then
     if [ -f "$SETTINGS_FILE" ]; then
-      # Check if statusLine is already configured
-      if ! jq -e '.statusLine' "$SETTINGS_FILE" > /dev/null 2>&1; then
-        jq '. + {"statusLine":{"type":"command","command":"~/.claude/statusline.sh","padding":0}}' "$SETTINGS_FILE" > "$SETTINGS_FILE.tmp" \
+      CURRENT_CMD=$(jq -r '.statusLine.command // ""' "$SETTINGS_FILE" 2>/dev/null)
+      if [ "$CURRENT_CMD" != "$EXPECTED_CMD" ]; then
+        jq '.statusLine = {"type":"command","command":"~/.claude/statusline.sh","padding":0}' "$SETTINGS_FILE" > "$SETTINGS_FILE.tmp" \
           && mv "$SETTINGS_FILE.tmp" "$SETTINGS_FILE"
-        echo "  ✓ Added statusLine config to settings.json"
+        echo "  ✓ Updated statusLine config in settings.json"
       fi
     else
       cat > "$SETTINGS_FILE" <<'SETTINGSEOF'
