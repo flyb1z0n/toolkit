@@ -11,6 +11,61 @@ mkdir -p "$TARGET_DIR"
 declare -a NAMES=()
 declare -a STATUSES=()
 
+# --- Statusline installation ---
+STATUSLINE_SOURCE="$SCRIPT_DIR/.claude/statusline.sh"
+STATUSLINE_TARGET="$HOME/.claude/statusline.sh"
+SETTINGS_FILE="$HOME/.claude/settings.json"
+
+install_statusline=false
+if [ -f "$STATUSLINE_SOURCE" ]; then
+  echo ""
+  echo "📊 Custom statusline available (shows dir, git branch, model)"
+
+  if [ -L "$STATUSLINE_TARGET" ] && [ "$(readlink -f "$STATUSLINE_TARGET")" = "$(readlink -f "$STATUSLINE_SOURCE")" ]; then
+    echo "✓ Statusline is already installed and up to date."
+    NAMES+=("statusline.sh")
+    STATUSES+=("up-to-date")
+  else
+    read -rp "  Install custom statusline? [y/N] " answer
+    case "$answer" in
+      [yY]|[yY][eE][sS])
+        ln -sf "$STATUSLINE_SOURCE" "$STATUSLINE_TARGET"
+        install_statusline=true
+        NAMES+=("statusline.sh")
+        STATUSES+=("installed")
+        ;;
+      *)
+        NAMES+=("statusline.sh")
+        STATUSES+=("skipped")
+        ;;
+    esac
+  fi
+
+  # Configure settings.json if statusline was just installed
+  if $install_statusline; then
+    if [ -f "$SETTINGS_FILE" ]; then
+      # Check if statusLine is already configured
+      if ! jq -e '.statusLine' "$SETTINGS_FILE" > /dev/null 2>&1; then
+        jq '. + {"statusLine":{"type":"command","command":"~/.claude/statusline.sh","padding":0}}' "$SETTINGS_FILE" > "$SETTINGS_FILE.tmp" \
+          && mv "$SETTINGS_FILE.tmp" "$SETTINGS_FILE"
+        echo "  ✓ Added statusLine config to settings.json"
+      fi
+    else
+      cat > "$SETTINGS_FILE" <<'SETTINGSEOF'
+{
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 0
+  }
+}
+SETTINGSEOF
+      echo "  ✓ Created settings.json with statusLine config"
+    fi
+  fi
+fi
+
+# --- Commands installation ---
 for cmd in "$SOURCE_DIR"/*.md; do
   name="$(basename "$cmd")"
   target="$TARGET_DIR/$name"
