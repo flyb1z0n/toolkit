@@ -29,7 +29,7 @@ Defined in `aliases.sh`, loaded automatically via `loader.sh`:
 | `pp` | `ping 8.8.8.8` |
 | `cdd` | `cd ~/dev` |
 | `cdp` | `cd ~/dev/private` |
-| `cdt` | `cd /dev/tmp` |
+| `cdt` | `cd ~/dev/tmp` |
 
 ### Shell functions
 
