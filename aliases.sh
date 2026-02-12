@@ -4,31 +4,19 @@ alias gs="git status"
 alias gnb="git checkout -b"
 alias gl="git log --pretty=oneline"
 
+# Claude Code aliases
+alias cc='claude'
+
 # General aliases
 alias ll="ls -laG"
 alias redock="killall Dock"
 alias sshdo="ssh devops@164.92.90.35"
 alias tcpu="sudo powermetrics --samplers smc |grep -i 'CPU'"
 alias tf="terraform"
-alias cdc="cd ~/dev/corp-eng"
 alias pp="ping 8.8.8.8"
 alias cdd="cd ~/dev"
 alias cdp="cd ~/dev/private"
-
-# npm aliases
-alias npm-def='npm config set registry https://registry.npmjs.org'
-alias npm-gr='rm -rf ~/.npmrc & cp ~/.npmrc.bak ~/.npmrc'
-alias clt='tail -n 1000 -f /Users/kshavrukov/dev/common-api/build/common-api/log/capi.log'
-
-# AWS SSO login - create and enable AWS profile
-# Usage: al <profile_name>
-al() {
-    echo "Login..."
-    aws sso login --profile $1
-    echo "Enabling profile... $1"
-    export AWS_PROFILE=$1
-    echo "Done."
-}
+alias cdt="cd /dev/tmp"
 
 # Review PR - fetch and merge PR locally
 # Usage: rpr <pr_number>
