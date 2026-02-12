@@ -16,7 +16,7 @@ alias tf="terraform"
 alias pp="ping 8.8.8.8"
 alias cdd="cd ~/dev"
 alias cdp="cd ~/dev/private"
-alias cdt="cd /dev/tmp"
+alias cdt="cd ~/dev/tmp"
 
 # Review PR - fetch and merge PR locally
 # Usage: rpr <pr_number>
