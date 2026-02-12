@@ -98,6 +98,23 @@ for cmd in "$SOURCE_DIR"/*.md; do
   fi
 done
 
+# --- Loader installation (.zshrc) ---
+LOADER_SOURCE="$SCRIPT_DIR/loader.sh"
+ZSHRC="$HOME/.zshrc"
+LOADER_MARKER="# toolkit-loader"
+LOADER_LINE="source \"$SCRIPT_DIR/loader.sh\" $LOADER_MARKER"
+
+NAMES+=("loader.sh")
+if [ -f "$ZSHRC" ] && grep -qF "$LOADER_MARKER" "$ZSHRC"; then
+  echo "✓ loader.sh is already sourced in .zshrc"
+  STATUSES+=("up-to-date")
+else
+  echo "" >> "$ZSHRC"
+  echo "$LOADER_LINE" >> "$ZSHRC"
+  echo "✓ Added loader.sh to .zshrc"
+  STATUSES+=("installed")
+fi
+
 # Print summary table
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
