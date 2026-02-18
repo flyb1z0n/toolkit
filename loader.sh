@@ -3,7 +3,7 @@
 # 1. Auto-updates toolkit via background git pull (once per 24h)
 # 2. Sources aliases.sh
 
-TOOLKIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+TOOLKIT_DIR="${0:A:h}"
 TIMESTAMP_FILE="$TOOLKIT_DIR/.toolkit_last_update"
 NOW=$(date +%s)
 INTERVAL=86400 # 24 hours
