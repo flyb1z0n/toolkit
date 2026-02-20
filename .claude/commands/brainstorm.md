@@ -33,15 +33,20 @@ Start by understanding the current project context, then ask questions one at a 
 
 ## After the Design
 
-**Documentation:**
-- Write the validated design to `docs/plans/YYYY-MM-DD-<topic>-design.md`
+**Documentation — check for spec-driven workflow first:**
+- If the project has a `spec/CLAUDE.md` or spec skills (`/spec-feature-writer`, `/spec-decision-writer`), use the spec workflow:
+  - For new features or behavior changes → use `/spec-feature-writer` to draft a formal spec
+  - For architectural decisions → use `/spec-decision-writer` to document the decision
+  - Save specs to `spec/features/` or `spec/decision-records/` per the spec workflow
+- Otherwise, fall back to writing the design to `docs/plans/YYYY-MM-DD-<topic>-design.md`
 - Use elements-of-style:writing-clearly-and-concisely skill if available
-- Commit the design document to git
+- Commit the document to git
 
 **Implementation (if continuing):**
 - Ask: "Ready to set up for implementation?"
-- Use superpowers:using-git-worktrees to create isolated workspace
-- Use superpowers:writing-plans to create detailed implementation plan
+- If using spec workflow: implement against acceptance criteria, then use `/spec-e2e-test-generator` for tests and `/spec-maintenance` to activate
+- Use superpowers:using-git-worktrees to create isolated workspace if available
+- Use superpowers:writing-plans to create detailed implementation plan if available
 
 ## Key Principles
 
