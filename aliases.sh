@@ -3,6 +3,7 @@ alias gwl="git worktree list"
 alias gs="git status"
 alias gnb="git checkout -b"
 alias gl="git log --pretty=oneline"
+unalias gcm 2>/dev/null
 gcm() {
     local base_branch=$(get_base_branch)
     git checkout "$base_branch" && git pull origin "$base_branch"
