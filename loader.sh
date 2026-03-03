@@ -3,7 +3,11 @@
 # 1. Auto-updates toolkit via background git pull (once per 24h)
 # 2. Sources aliases.sh
 
-TOOLKIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+if [[ -n "$ZSH_VERSION" ]]; then
+  TOOLKIT_DIR="${0:A:h}"
+else
+  TOOLKIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
 TIMESTAMP_FILE="$TOOLKIT_DIR/.toolkit_last_update"
 NOW=$(date +%s)
 INTERVAL=86400 # 24 hours
@@ -22,7 +26,7 @@ fi
 
 if [ "$should_pull" = true ]; then
   echo "$NOW" > "$TIMESTAMP_FILE"
-  (cd "$TOOLKIT_DIR" && git pull --quiet >/dev/null 2>&1 &)
+  (cd "$TOOLKIT_DIR" && git pull --quiet &) >/dev/null 2>&1
 fi
 
 # Load aliases and functions
