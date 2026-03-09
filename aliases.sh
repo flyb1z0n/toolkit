@@ -24,14 +24,18 @@ alias cdp="cd ~/dev/private"
 alias cdt="cd ~/dev/tmp"
 
 # Review PR - fetch and merge PR locally
-# Usage: rpr <pr_number>
+# Usage: rpr <mr_number_or_url>
 rpr() {
+    local mr_id="$1"
+    if [[ "$mr_id" =~ merge_requests/([0-9]+) ]]; then
+        mr_id="${BASH_REMATCH[1]:-${match[1]}}"
+    fi
     BASE_BRANCH=$(get_base_branch)
     git checkout $BASE_BRANCH;
     git pull origin $BASE_BRANCH;
     DATE_WITH_TIME=`date "+%Y%m%d-%H%M%S"`
-    git fetch origin merge-requests/"$1"/head:PR-"$DATE_WITH_TIME"-"$1";
-    git merge --squash PR-"$DATE_WITH_TIME"-"$1";
+    git fetch origin merge-requests/"$mr_id"/head:PR-"$DATE_WITH_TIME"-"$mr_id";
+    git merge --squash PR-"$DATE_WITH_TIME"-"$mr_id";
 }
 
 # Get base branch (main or master)
