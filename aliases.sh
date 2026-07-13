@@ -11,6 +11,7 @@ gcm() {
 
 # Claude Code aliases
 alias cc='claude'
+alias cca='claude agents'
 
 # General aliases
 alias ll="ls -laG"
