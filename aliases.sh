@@ -13,6 +13,10 @@ gcm() {
 alias cc='claude'
 alias ca='claude agents'
 
+# Grammarly dev aliases
+alias dgo="GRAMMARLY_ENV=qa make dev-go"
+alias dch="DEV_QA=yes CODA_DEV=true CAPI_FREEWS_CUSTOM=wss://capi-local.qagr.io/freews MAJOR_VERSION=999 BUILD_NUMBER=999 RELEASE_NUMBER=999 pnpm dev:chrome"
+
 # General aliases
 alias ll="ls -laG"
 alias redock="killall Dock"
