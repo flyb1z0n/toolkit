@@ -47,18 +47,23 @@ for ((i=0; i<FILLED; i++)); do BAR+="█"; done
 for ((i=0; i<EMPTY; i++)); do BAR+="░"; done
 CONTEXT_INFO=$(printf "\033[${CONTEXT_COLOR}m[%s] %s%%\033[0m" "$BAR" "$CONTEXT_USED")
 
-# Remaining 5-hour rate-limit quota (only present after first API response in a session)
+# 5-hour rate-limit quota used (only present after first API response in a session)
 QUOTA_INFO=""
 if [ -n "$FIVE_HOUR_USED" ]; then
-    QUOTA_REMAINING=$(printf "%.0f" "$FIVE_HOUR_USED" | awk '{print 100-$1}')
-    if [ "$QUOTA_REMAINING" -le 20 ]; then
+    QUOTA_USED=$(printf "%.0f" "$FIVE_HOUR_USED")
+    if [ "$QUOTA_USED" -ge 80 ]; then
         QUOTA_COLOR="0;31"  # red
-    elif [ "$QUOTA_REMAINING" -le 50 ]; then
+    elif [ "$QUOTA_USED" -ge 50 ]; then
         QUOTA_COLOR="0;33"  # yellow
     else
         QUOTA_COLOR="0;32"  # green
     fi
-    QUOTA_INFO=$(printf "  🪙 \033[${QUOTA_COLOR}m%s%%\033[0m left" "$QUOTA_REMAINING")
+    QUOTA_FILLED=$(( QUOTA_USED * BAR_WIDTH / 100 ))
+    QUOTA_EMPTY=$(( BAR_WIDTH - QUOTA_FILLED ))
+    QUOTA_BAR=""
+    for ((i=0; i<QUOTA_FILLED; i++)); do QUOTA_BAR+="█"; done
+    for ((i=0; i<QUOTA_EMPTY; i++)); do QUOTA_BAR+="░"; done
+    QUOTA_INFO=$(printf "  🪙 \033[${QUOTA_COLOR}m[%s] %s%%\033[0m" "$QUOTA_BAR" "$QUOTA_USED")
 fi
 
 # Determine if git branch is too long (>30 chars) to put on new line
