@@ -6,6 +6,7 @@ input=$(cat)
 MODEL_DISPLAY=$(echo "$input" | jq -r '.model.display_name')
 CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir')
 CONTEXT_USED=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | xargs printf "%.0f")
+FIVE_HOUR_USED=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
 
 # Get directory basename
 DIR_NAME=${CURRENT_DIR##*/}
@@ -46,12 +47,26 @@ for ((i=0; i<FILLED; i++)); do BAR+="█"; done
 for ((i=0; i<EMPTY; i++)); do BAR+="░"; done
 CONTEXT_INFO=$(printf "\033[${CONTEXT_COLOR}m[%s] %s%%\033[0m" "$BAR" "$CONTEXT_USED")
 
+# Remaining 5-hour rate-limit quota (only present after first API response in a session)
+QUOTA_INFO=""
+if [ -n "$FIVE_HOUR_USED" ]; then
+    QUOTA_REMAINING=$(printf "%.0f" "$FIVE_HOUR_USED" | awk '{print 100-$1}')
+    if [ "$QUOTA_REMAINING" -le 20 ]; then
+        QUOTA_COLOR="0;31"  # red
+    elif [ "$QUOTA_REMAINING" -le 50 ]; then
+        QUOTA_COLOR="0;33"  # yellow
+    else
+        QUOTA_COLOR="0;32"  # green
+    fi
+    QUOTA_INFO=$(printf "  🪙 \033[${QUOTA_COLOR}m%s%%\033[0m left" "$QUOTA_REMAINING")
+fi
+
 # Determine if git branch is too long (>30 chars) to put on new line
 BRANCH_LENGTH=${#GIT_BRANCH}
 if [ -n "$GIT_BRANCH" ] && [ "$BRANCH_LENGTH" -gt 30 ]; then
     # Long branch - put git info on separate line
-    printf "📁 \033[0;36m%s\033[0m\n%s\n🤖 \033[0;33m[%s]\033[0m  🧠 %s" "$DIR_NAME" "$GIT_INFO" "$MODEL_DISPLAY" "$CONTEXT_INFO"
+    printf "📁 \033[0;36m%s\033[0m\n%s\n🤖 \033[0;33m[%s]\033[0m  🧠 %s%s" "$DIR_NAME" "$GIT_INFO" "$MODEL_DISPLAY" "$CONTEXT_INFO" "$QUOTA_INFO"
 else
     # Short branch or no git - keep on same line
-    printf "📁 \033[0;36m%s\033[0m%s\n🤖 \033[0;33m[%s]\033[0m  🧠 %s" "$DIR_NAME" "$GIT_INFO" "$MODEL_DISPLAY" "$CONTEXT_INFO"
+    printf "📁 \033[0;36m%s\033[0m%s\n🤖 \033[0;33m[%s]\033[0m  🧠 %s%s" "$DIR_NAME" "$GIT_INFO" "$MODEL_DISPLAY" "$CONTEXT_INFO" "$QUOTA_INFO"
 fi
