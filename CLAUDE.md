@@ -31,7 +31,7 @@ Sourced by `.zshrc` on every shell open. Does two things:
 ### aliases.sh
 All shell aliases and functions. Key functions:
 - `nc` — creates a git worktree in the parent directory (`../projectname_feature_<id>`), then launches `claude` in it
-- `rpr <mr_number_or_url>` — fetches a GitLab MR (supports both number and URL) and squash-merges it locally for review; uses `get_base_branch` to detect `main` vs `master`
+- `rpr <mr_number_or_url>` — fetches a GitLab MR or GitHub PR (supports bare number, GitLab `merge_requests/N` URLs, or GitHub `pull/N` URLs, including `/changes` and `/commits` suffixes) and squash-merges it locally for review; uses `get_base_branch` to detect `main` vs `master`
 - `arpr` — same as `rpr` but fetches from the `grc` remote instead of `origin`
 - `fpr` — `git reset --hard HEAD` to discard review changes
 - `cpr` — deletes all local `PR-*` branches

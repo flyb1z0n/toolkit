@@ -33,14 +33,18 @@ alias cdt="cd ~/dev/tmp"
 # Usage: rpr <mr_number_or_url>
 rpr() {
     local mr_id="$1"
+    local ref_prefix="merge-requests"
     if [[ "$mr_id" =~ merge_requests/([0-9]+) ]]; then
         mr_id="${BASH_REMATCH[1]:-${match[1]}}"
+    elif [[ "$mr_id" =~ pull/([0-9]+) ]]; then
+        mr_id="${BASH_REMATCH[1]:-${match[1]}}"
+        ref_prefix="pull"
     fi
     BASE_BRANCH=$(get_base_branch)
     git checkout $BASE_BRANCH;
     git pull origin $BASE_BRANCH;
     DATE_WITH_TIME=`date "+%Y%m%d-%H%M%S"`
-    git fetch origin merge-requests/"$mr_id"/head:PR-"$DATE_WITH_TIME"-"$mr_id";
+    git fetch origin "$ref_prefix"/"$mr_id"/head:PR-"$DATE_WITH_TIME"-"$mr_id";
     git merge --squash PR-"$DATE_WITH_TIME"-"$mr_id";
 }
 
