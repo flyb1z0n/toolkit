@@ -37,7 +37,9 @@ All shell aliases and functions. Key functions:
 - `cpr` — deletes all local `PR-*` branches
 
 ### .claude/commands/
-Custom slash commands available in Claude Code (globally after install):
+Custom slash commands available in Claude Code (globally after install). `install.sh` symlinks every
+`*.md` in this directory, so adding a new command file is all that's needed — no installer change.
+- `babysit.md` — takes a PR/MR URL or number; investigates and fixes CI failures, triages review comments, and drafts concise replies that must be explicitly approved before posting. Never posts, resolves threads, or merges on its own
 - `brainstorm.md` — interactive design/brainstorming workflow; saves output to `docs/plans/YYYY-MM-DD-<topic>-design.md`
 - `commit-and-push.md` — auto-commits and pushes; uses Conventional Commits; never commits directly to `main`/`master`
 

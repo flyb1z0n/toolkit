@@ -10,6 +10,7 @@ Custom commands located in `.claude/commands/`:
 
 | Command | Description |
 |---------|-------------|
+| `babysit <pr>` | Babysit a PR/MR: fix CI failures, triage review comments, draft replies for approval |
 | `brainstorm` | Interactive brainstorming sessions for features, components, and architecture |
 | `commit-and-push` | Auto-commit all changes and push to the current branch |
 
