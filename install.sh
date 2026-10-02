@@ -98,6 +98,45 @@ for cmd in "$SOURCE_DIR"/*.md; do
   fi
 done
 
+# --- Cursor skills installation ---
+SKILLS_SOURCE_DIR="$SCRIPT_DIR/.cursor/skills"
+SKILLS_TARGET_DIR="$HOME/.cursor/skills"
+
+if [ -d "$SKILLS_SOURCE_DIR" ]; then
+  mkdir -p "$SKILLS_TARGET_DIR"
+  for skill in "$SKILLS_SOURCE_DIR"/*/; do
+    skill="${skill%/}"
+    name="$(basename "$skill")"
+    target="$SKILLS_TARGET_DIR/$name"
+    NAMES+=("cursor skill: $name")
+
+    if [ -e "$target" ] || [ -L "$target" ]; then
+      if [ -L "$target" ] && [ "$(readlink -f "$target")" = "$(readlink -f "$skill")" ]; then
+        echo "✓ Cursor skill '$name' is already installed and up to date."
+        STATUSES+=("up-to-date")
+        continue
+      fi
+
+      echo ""
+      echo "⚠ Cursor skill '$name' already exists at $target"
+      read -rp "  Replace it? [y/N] " answer
+      case "$answer" in
+        [yY]|[yY][eE][sS])
+          rm -rf "$target"
+          ln -sfn "$skill" "$target"
+          STATUSES+=("replaced")
+          ;;
+        *)
+          STATUSES+=("skipped")
+          ;;
+      esac
+    else
+      ln -sfn "$skill" "$target"
+      STATUSES+=("installed")
+    fi
+  done
+fi
+
 # --- Loader installation (.zshrc) ---
 LOADER_SOURCE="$SCRIPT_DIR/loader.sh"
 ZSHRC="$HOME/.zshrc"
@@ -136,3 +175,4 @@ done
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "Commands directory: $TARGET_DIR"
+echo "Cursor skills directory: $SKILLS_TARGET_DIR"

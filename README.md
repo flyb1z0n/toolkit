@@ -53,7 +53,7 @@ Defined in `aliases.sh`, loaded automatically via `loader.sh`:
 ./install.sh
 ```
 
-This creates symlinks from the commands in this repo to `~/.claude/commands/`, making them available globally in Claude Code. If a command already exists, you'll be prompted to replace or skip it.
+This creates symlinks from the commands in this repo to `~/.claude/commands/` (Claude Code) and from `.cursor/skills/*` to `~/.cursor/skills/` (Cursor), making them available globally as `/babysit`, `/brainstorm`, and `/commit-and-push`. If a command or skill already exists, you'll be prompted to replace or skip it.
 
 To load aliases, add this to your `.zshrc`:
 

@@ -43,6 +43,11 @@ Custom slash commands available in Claude Code (globally after install). `instal
 - `brainstorm.md` — interactive design/brainstorming workflow; saves output to `docs/plans/YYYY-MM-DD-<topic>-design.md`
 - `commit-and-push.md` — auto-commits and pushes; uses Conventional Commits; never commits directly to `main`/`master`
 
+### .cursor/skills/
+Cursor Agent Skills — the same three workflows as `.claude/commands/`, in `SKILL.md` format
+(`babysit/`, `brainstorm/`, `commit-and-push/`). `install.sh` symlinks each skill directory into
+`~/.cursor/skills/`. When changing a command, update its `.cursor/skills/<name>/SKILL.md` twin too.
+
 ### .claude/statusline.sh
 Claude Code statusline script. Reads JSON from stdin and outputs: directory name, git branch (with dirty indicator), model name, and a color-coded context window progress bar.
 
