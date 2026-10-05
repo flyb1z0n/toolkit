@@ -66,6 +66,49 @@ SETTINGSEOF
   fi
 fi
 
+# --- Cursor CLI statusline installation ---
+CURSOR_STATUSLINE_SOURCE="$SCRIPT_DIR/.cursor/statusline.sh"
+CURSOR_STATUSLINE_TARGET="$HOME/.cursor/statusline.sh"
+CURSOR_CONFIG_FILE="$HOME/.cursor/cli-config.json"
+
+if [ -f "$CURSOR_STATUSLINE_SOURCE" ]; then
+  echo ""
+  echo "📊 Cursor CLI statusline available (shows dir, git branch, model, context, spend quota)"
+  NAMES+=("cursor statusline.sh")
+
+  if [ -L "$CURSOR_STATUSLINE_TARGET" ] && [ "$(readlink -f "$CURSOR_STATUSLINE_TARGET")" = "$(readlink -f "$CURSOR_STATUSLINE_SOURCE")" ]; then
+    echo "✓ Cursor statusline is already installed and up to date."
+    STATUSES+=("up-to-date")
+  else
+    read -rp "  Install Cursor CLI statusline? [y/N] " answer
+    case "$answer" in
+      [yY]|[yY][eE][sS])
+        mkdir -p "$HOME/.cursor"
+        ln -sf "$CURSOR_STATUSLINE_SOURCE" "$CURSOR_STATUSLINE_TARGET"
+        STATUSES+=("installed")
+        ;;
+      *)
+        STATUSES+=("skipped")
+        ;;
+    esac
+  fi
+
+  # Ensure cli-config.json points to the statusline script (the Cursor CLI creates this file on first run)
+  CURSOR_EXPECTED_CMD="~/.cursor/statusline.sh"
+  if [ -L "$CURSOR_STATUSLINE_TARGET" ] && [ "$(readlink -f "$CURSOR_STATUSLINE_TARGET")" = "$(readlink -f "$CURSOR_STATUSLINE_SOURCE")" ]; then
+    if [ -f "$CURSOR_CONFIG_FILE" ]; then
+      CURRENT_CMD=$(jq -r '.statusLine.command // ""' "$CURSOR_CONFIG_FILE" 2>/dev/null)
+      if [ "$CURRENT_CMD" != "$CURSOR_EXPECTED_CMD" ]; then
+        jq '.statusLine = {"type":"command","command":"~/.cursor/statusline.sh","padding":0}' "$CURSOR_CONFIG_FILE" > "$CURSOR_CONFIG_FILE.tmp" \
+          && mv "$CURSOR_CONFIG_FILE.tmp" "$CURSOR_CONFIG_FILE"
+        echo "  ✓ Updated statusLine config in cli-config.json"
+      fi
+    else
+      echo "  ⚠ $CURSOR_CONFIG_FILE not found — run cursor-agent once, then re-run ./install.sh"
+    fi
+  fi
+fi
+
 # --- Commands installation ---
 for cmd in "$SOURCE_DIR"/*.md; do
   name="$(basename "$cmd")"

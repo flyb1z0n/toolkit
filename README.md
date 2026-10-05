@@ -14,6 +14,15 @@ Custom commands located in `.claude/commands/`:
 | `brainstorm` | Interactive brainstorming sessions for features, components, and architecture |
 | `commit-and-push` | Auto-commit all changes and push to the current branch |
 
+### Statuslines
+
+| Tool | Script | Shows |
+|------|--------|-------|
+| Claude Code | `.claude/statusline.sh` | dir, git branch, model, context bar, 5-hour quota bar |
+| Cursor CLI | `.cursor/statusline.sh` | dir, git branch, model (+ MAX / autorun), context bar, monthly spend vs. limit |
+
+The Cursor spend bar reads the CLI's login token from the macOS keychain and caches the result for 5 minutes in `~/.cache/cursor-statusline/`.
+
 ### Shell aliases
 
 Defined in `aliases.sh`, loaded automatically via `loader.sh`:

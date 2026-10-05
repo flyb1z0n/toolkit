@@ -14,7 +14,7 @@ There is no build system, test suite, or package manager. All files are plain sh
 ./install.sh
 ```
 
-Creates symlinks from `.claude/commands/*.md` → `~/.claude/commands/` and `.claude/statusline.sh` → `~/.claude/statusline.sh`, updates `~/.claude/settings.json` for the statusline, and appends a `source` line to `~/.zshrc` for `loader.sh`.
+Creates symlinks from `.claude/commands/*.md` → `~/.claude/commands/` and `.claude/statusline.sh` → `~/.claude/statusline.sh`, updates `~/.claude/settings.json` for the statusline, does the same for `.cursor/statusline.sh` → `~/.cursor/statusline.sh` and `~/.cursor/cli-config.json`, and appends a `source` line to `~/.zshrc` for `loader.sh`.
 
 To load aliases manually, add to `.zshrc`:
 ```bash
@@ -50,6 +50,15 @@ Cursor Agent Skills — the same three workflows as `.claude/commands/`, in `SKI
 
 ### .claude/statusline.sh
 Claude Code statusline script. Reads JSON from stdin and outputs: directory name, git branch (with dirty indicator), model name, and a color-coded context window progress bar.
+
+### .cursor/statusline.sh
+Cursor CLI twin of the Claude statusline (symlinked to `~/.cursor/statusline.sh`, wired up via `statusLine` in
+`~/.cursor/cli-config.json`). Same layout, plus model params / MAX / autorun / worktree. Instead of the Claude
+5-hour quota (not in the Cursor payload), it shows monthly team spend vs. per-user limit, fetched from
+`DashboardService/GetTeamSpend` with the CLI's keychain token (`cursor-access-token`, macOS only). The result is
+cached in `~/.cache/cursor-statusline/quota.json` and refreshed in a detached background job at most every 5 min,
+because the CLI kills the script on every update and times it out after 2s. When changing shared layout, update
+both statusline scripts.
 
 ## Commit style
 
