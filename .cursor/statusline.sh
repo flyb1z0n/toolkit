@@ -104,21 +104,18 @@ if git rev-parse --git-dir > /dev/null 2>&1; then
     # Use --no-optional-locks to avoid lock issues
     GIT_BRANCH=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null || git --no-optional-locks rev-parse --short HEAD 2>/dev/null)
     git_dirty=$(git --no-optional-locks status --porcelain 2>/dev/null)
+    BRANCH_ICON="🔀"
+    [ -n "$WORKTREE_NAME" ] && BRANCH_ICON="🖥️"
 
     if [ -n "$git_dirty" ]; then
         # Dirty repo - show branch with ✗ (red branch, yellow ✗)
-        GIT_INFO=$(printf " 🔀 \033[0;31m%s\033[0m \033[0;33m✗\033[0m" "$GIT_BRANCH")
+        GIT_INFO=$(printf " %s \033[0;31m%s\033[0m \033[0;33m✗\033[0m" "$BRANCH_ICON" "$GIT_BRANCH")
     else
         # Clean repo (red branch)
-        GIT_INFO=$(printf " 🔀 \033[0;31m%s\033[0m" "$GIT_BRANCH")
+        GIT_INFO=$(printf " %s \033[0;31m%s\033[0m" "$BRANCH_ICON" "$GIT_BRANCH")
     fi
 else
     GIT_INFO=""
-fi
-
-# Worktree name (only present when running in a Cursor worktree)
-if [ -n "$WORKTREE_NAME" ]; then
-    GIT_INFO+=$(printf " 🌳 \033[0;35m%s\033[0m" "$WORKTREE_NAME")
 fi
 
 CONTEXT_INFO=$(printf "\033[$(pct_color "$CONTEXT_USED")m[%s] %s%%\033[0m" "$(make_bar "$CONTEXT_USED")" "$CONTEXT_USED")
