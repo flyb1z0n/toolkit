@@ -17,13 +17,18 @@ if git rev-parse --git-dir > /dev/null 2>&1; then
     # Use --no-optional-locks to avoid lock issues
     GIT_BRANCH=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null || git --no-optional-locks rev-parse --short HEAD 2>/dev/null)
     git_dirty=$(git --no-optional-locks status --porcelain 2>/dev/null)
+    BRANCH_ICON="🔀"
+    GIT_DIR=$(git --no-optional-locks rev-parse --git-dir 2>/dev/null)
+    if [[ "$GIT_DIR" == *"/worktrees/"* ]]; then
+        BRANCH_ICON="🖥️"
+    fi
 
     if [ -n "$git_dirty" ]; then
         # Dirty repo - show branch with ✗ (red branch, yellow ✗)
-        GIT_INFO=$(printf " 🔀 \033[0;31m%s\033[0m \033[0;33m✗\033[0m" "$GIT_BRANCH")
+        GIT_INFO=$(printf " %s \033[0;31m%s\033[0m \033[0;33m✗\033[0m" "$BRANCH_ICON" "$GIT_BRANCH")
     else
         # Clean repo (red branch)
-        GIT_INFO=$(printf " 🔀 \033[0;31m%s\033[0m" "$GIT_BRANCH")
+        GIT_INFO=$(printf " %s \033[0;31m%s\033[0m" "$BRANCH_ICON" "$GIT_BRANCH")
     fi
 else
     GIT_INFO=""
