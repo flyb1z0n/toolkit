@@ -14,6 +14,7 @@ Automatically commit all changes and push without asking for confirmation.
 5. Create a meaningful commit message based on the changes
 6. Commit immediately without asking for user approval
 7. Push to the current branch (use `-u origin <branch-name>` if it's a new branch)
+8. Propose a PR/MR title and description (see "PR / MR title and description" below)
 
 IMPORTANT: Do NOT ask the user for confirmation at any step. Just execute everything automatically.
 
@@ -56,3 +57,18 @@ Commit message guidelines:
    - `feat!: send email to customer when product is shipped`
 
 3. NEVER mention that this commit was created by Claude or any AI assistant
+
+PR / MR title and description:
+
+After pushing, propose a title and description the user can paste into the PR/MR. Never create or edit the PR/MR yourself.
+
+- Cover the whole branch, not only the latest commit: use `git log <base>..HEAD` and `git diff <base>...HEAD`, where `<base>` is the default branch (`git symbolic-ref --short refs/remotes/origin/HEAD`, falling back to `origin/main` or `origin/master`).
+- If the repo has a PR/MR template (`.github/pull_request_template.md`, `.github/PULL_REQUEST_TEMPLATE/`, `.gitlab/merge_request_templates/`), fill it in instead of using the default layout below.
+- If a PR/MR already exists (`gh pr view` / `glab mr view`), propose an updated title and description only when the new commits change what it covers; otherwise say the current ones still fit.
+- Title: Conventional Commits style, matching the commit convention above, under ~72 characters.
+- Description, kept short:
+  - 1–3 sentences on what changed and why
+  - a bullet list of notable changes, only when there is more than one
+  - how it was tested (commands run, new tests), or that it wasn't
+- Put the title and the description in separate fenced code blocks so each copies cleanly.
+- NEVER mention that the changes or description were produced by Claude or any AI assistant.
