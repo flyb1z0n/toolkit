@@ -13,6 +13,9 @@ gcm() {
 alias cc='claude'
 alias ca='claude agents'
 
+# Cursor agent aliases
+alias c='agent --yolo'
+
 # Grammarly dev aliases
 alias dgo="GRAMMARLY_ENV=qa make dev-go"
 alias dch="DEV_QA=yes CODA_DEV=true CAPI_FREEWS_CUSTOM=wss://capi-local.qagr.io/freews MAJOR_VERSION=999 BUILD_NUMBER=999 RELEASE_NUMBER=999 pnpm dev:chrome"
@@ -28,6 +31,7 @@ alias pp="ping 8.8.8.8"
 alias cdd="cd ~/dev"
 alias cdp="cd ~/dev/private"
 alias cdt="cd ~/dev/tmp"
+alias bym="(cd ~/dev/private/ym && bun run setup)"
 
 # Review PR - fetch and merge PR locally
 # Usage: rpr <mr_number_or_url>
