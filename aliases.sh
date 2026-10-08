@@ -31,7 +31,7 @@ alias pp="ping 8.8.8.8"
 alias cdd="cd ~/dev"
 alias cdp="cd ~/dev/private"
 alias cdt="cd ~/dev/tmp"
-alias bym="(cd ~/dev/private/ym && bun run setup)"
+alias bym="(cd ~/dev/private/ym && git pull origin main && bun run setup)"
 
 # Review PR - fetch and merge PR locally
 # Usage: rpr <mr_number_or_url>
