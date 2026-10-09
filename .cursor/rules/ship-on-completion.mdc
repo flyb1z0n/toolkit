@@ -1,0 +1,26 @@
+---
+description: At the end of a code-change task, commit, push, and open a merge request
+alwaysApply: true
+---
+
+# Ship on Completion
+
+When a task changes code in a git repository, finish it by committing, pushing, and raising an MR/PR. Skip this for questions, investigations, or tasks with no file changes.
+
+## Steps
+
+1. **Verify first.** Run the repo's relevant lint/typecheck/tests for the touched code. Don't ship if they fail — report the failure instead.
+2. **Branch.** Never commit directly to `main`/`master`/the default branch. If on it, create a descriptive branch (e.g. `feat/add-retry-to-client`, `fix/null-user-crash`).
+3. **Commit.** Stage only files related to the task (no stray artifacts, no `.env*`). Follow the repo's commit convention (check `git log`). Use the `commit-and-push` skill when available.
+4. **Push.** `git push -u origin <branch>`.
+5. **Raise the MR/PR.** Detect the host from `git remote get-url origin`:
+   - GitLab → `update-merge-request` skill / `glab mr create`
+   - GitHub → `update-pull-request` skill / `gh pr create`
+   If an MR/PR already exists for the branch, update it instead of creating a new one.
+6. **Report** the MR/PR link in the final message.
+
+## Never
+
+- `git commit --no-verify` — fix hook failures instead
+- Force-push to shared branches
+- Commit unrelated or pre-existing uncommitted changes without asking

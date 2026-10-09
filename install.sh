@@ -180,6 +180,43 @@ if [ -d "$SKILLS_SOURCE_DIR" ]; then
   done
 fi
 
+# --- Cursor rules installation ---
+RULES_SOURCE_DIR="$SCRIPT_DIR/.cursor/rules"
+RULES_TARGET_DIR="$HOME/.cursor/rules"
+
+if [ -d "$RULES_SOURCE_DIR" ]; then
+  mkdir -p "$RULES_TARGET_DIR"
+  for rule in "$RULES_SOURCE_DIR"/*.mdc; do
+    name="$(basename "$rule")"
+    target="$RULES_TARGET_DIR/$name"
+    NAMES+=("cursor rule: $name")
+
+    if [ -e "$target" ] || [ -L "$target" ]; then
+      if [ -L "$target" ] && [ "$(readlink -f "$target")" = "$(readlink -f "$rule")" ]; then
+        echo "✓ Cursor rule '$name' is already installed and up to date."
+        STATUSES+=("up-to-date")
+        continue
+      fi
+
+      echo ""
+      echo "⚠ Cursor rule '$name' already exists at $target"
+      read -rp "  Replace it? [y/N] " answer
+      case "$answer" in
+        [yY]|[yY][eE][sS])
+          ln -sf "$rule" "$target"
+          STATUSES+=("replaced")
+          ;;
+        *)
+          STATUSES+=("skipped")
+          ;;
+      esac
+    else
+      ln -sf "$rule" "$target"
+      STATUSES+=("installed")
+    fi
+  done
+fi
+
 # --- Loader installation (.zshrc) ---
 LOADER_SOURCE="$SCRIPT_DIR/loader.sh"
 ZSHRC="$HOME/.zshrc"
@@ -219,3 +256,4 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 echo "Commands directory: $TARGET_DIR"
 echo "Cursor skills directory: $SKILLS_TARGET_DIR"
+echo "Cursor rules directory: $RULES_TARGET_DIR"
