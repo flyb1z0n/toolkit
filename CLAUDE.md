@@ -48,6 +48,10 @@ Cursor Agent Skills — the same three workflows as `.claude/commands/`, in `SKI
 (`babysit/`, `brainstorm/`, `commit-and-push/`). `install.sh` symlinks each skill directory into
 `~/.cursor/skills/`. When changing a command, update its `.cursor/skills/<name>/SKILL.md` twin too.
 
+### .cursor/rules/
+Global Cursor rules (`*.mdc`). `install.sh` symlinks each one into `~/.cursor/rules/`, so they apply in every project.
+- `ship-on-completion.mdc` — always applied; after a task that changes code, verify, branch off the default branch, commit, push, and open an MR/PR (GitLab via `glab`, GitHub via `gh`)
+
 ### .claude/statusline.sh
 Claude Code statusline script. Reads JSON from stdin and outputs: directory name, git branch (with dirty indicator), model name, and a color-coded context window progress bar.
 

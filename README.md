@@ -14,6 +14,14 @@ Custom commands located in `.claude/commands/`:
 | `brainstorm` | Interactive brainstorming sessions for features, components, and architecture |
 | `commit-and-push` | Auto-commit all changes and push to the current branch |
 
+### Cursor rules
+
+Global rules located in `.cursor/rules/`:
+
+| Rule | Description |
+|------|-------------|
+| `ship-on-completion` | At the end of a code-change task, commit, push, and open an MR/PR |
+
 ### Statuslines
 
 | Tool | Script | Shows |
@@ -62,7 +70,7 @@ Defined in `aliases.sh`, loaded automatically via `loader.sh`:
 ./install.sh
 ```
 
-This creates symlinks from the commands in this repo to `~/.claude/commands/` (Claude Code) and from `.cursor/skills/*` to `~/.cursor/skills/` (Cursor), making them available globally as `/babysit`, `/brainstorm`, and `/commit-and-push`. If a command or skill already exists, you'll be prompted to replace or skip it.
+This creates symlinks from the commands in this repo to `~/.claude/commands/` (Claude Code) and from `.cursor/skills/*` and `.cursor/rules/*.mdc` to `~/.cursor/skills/` and `~/.cursor/rules/` (Cursor), making them available globally as `/babysit`, `/brainstorm`, and `/commit-and-push`. If a command or skill already exists, you'll be prompted to replace or skip it.
 
 To load aliases, add this to your `.zshrc`:
 
