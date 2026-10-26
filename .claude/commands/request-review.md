@@ -5,7 +5,7 @@ argument-hint: "[MR/PR URLs] [reviewer names]"
 
 # Request MR review in #students-mr-review
 
-Draft a review-request message for Slack channel `#students-mr-review` (ID `C08U7P5F1PH`), show me a preview, and post it **only after I explicitly approve**.
+Draft a review-request message for Slack channel `#students-mr-review`, show me a preview, and post it **only after I explicitly approve**.
 
 Arguments (all optional, free-form): $ARGUMENTS
 
@@ -20,7 +20,7 @@ Arguments (all optional, free-form): $ARGUMENTS
 
 ## 2. Match my style
 
-Read my recent messages in `C08U7P5F1PH` (from me, user `U02JMV9LR8V`) with the Slack MCP tools, and copy my phrasing, casing, and how I format links. If Slack history isn't available, use the channel convention:
+Read my own recent messages in `#students-mr-review` with the Slack MCP tools, and copy my phrasing, casing, and how I format links. If Slack history isn't available, use the channel convention:
 
 ```
 <@REVIEWER_1> <@REVIEWER_2> PTAL: <MR_URL> short lowercase summary of what changed
@@ -35,8 +35,6 @@ Read my recent messages in `C08U7P5F1PH` (from me, user `U02JMV9LR8V`) with the 
 
 - Use the reviewers I named. Otherwise suggest the people I tagged most recently in the channel, and say they're a suggestion.
 - Resolve every name to a Slack user ID with Slack user search and mention them as `<@USER_ID>`. Never tag myself.
-- Known IDs: Dima Tiagulskyi `U02KH1D2T`, Akilesh Akula `U04HQMLLHGT`, Atharv Sakhala `U09CC2Z2EGN`, Jason Sperske `U028CLEA11R`.
-
 ## 4. Preview and confirm (mandatory)
 
 1. **Always** show a preview first, every time a draft is created or edited, including when you're confident in it:
@@ -53,6 +51,6 @@ Read my recent messages in `C08U7P5F1PH` (from me, user `U02JMV9LR8V`) with the 
 
 ## 5. Send
 
-- Post the approved text exactly as drafted to `C08U7P5F1PH`, as a new top-level message (not a thread reply).
+- Post the approved text exactly as drafted to `#students-mr-review`, as a new top-level message (not a thread reply).
 - Reply with the message permalink.
 - If Slack isn't authenticated, say so, and leave the final draft in the chat so I can paste it myself.
