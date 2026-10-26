@@ -35,11 +35,13 @@ Read my own recent messages in `#students-mr-review` with the Slack MCP tools, a
 
 - Use the reviewers I named. Otherwise suggest the people I tagged most recently in the channel, and say they're a suggestion.
 - Resolve every name to a Slack user ID with Slack user search and mention them as `<@USER_ID>`. Never tag myself.
+- For backend MRs, tag the `@students-be-eng` user group instead of individual people: `<!subteam^S08AYHYK31A>` (shown as `@students-be-eng` in the readable preview).
+
 ## 4. Preview and confirm (mandatory)
 
 1. **Always** show a preview first, every time a draft is created or edited, including when you're confident in it:
    - The exact message text in a code block, as it will be posted.
-   - Below it, a readable version with `@Name` in place of each `<@USER_ID>`.
+   - Below it, a readable version with `@Name` in place of each `<@USER_ID>` and `@group` in place of each `<!subteam^ID>`.
 2. Only after the preview, **always** use the `AskUserQuestion` tool with these options:
    - `Send it`
    - `Edit` (I'll describe the changes)
