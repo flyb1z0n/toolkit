@@ -42,10 +42,11 @@ Custom slash commands available in Claude Code (globally after install). `instal
 - `babysit.md` — takes a PR/MR URL or number; investigates and fixes CI failures, triages review comments, and drafts concise replies that must be explicitly approved before posting. Never posts, resolves threads, or merges on its own
 - `brainstorm.md` — interactive design/brainstorming workflow; saves output to `docs/plans/YYYY-MM-DD-<topic>-design.md`
 - `commit-and-push.md` — auto-commits and pushes; uses Conventional Commits; never commits directly to `main`/`master`; ends by proposing a PR/MR title and description
+- `request-review.md` — drafts a review request (mentions + MR link + summary of at most 8 words) for Slack `#students-mr-review`, always shows a preview, and posts only after an explicit "Send it"
 
 ### .cursor/skills/
-Cursor Agent Skills — the same three workflows as `.claude/commands/`, in `SKILL.md` format
-(`babysit/`, `brainstorm/`, `commit-and-push/`). `install.sh` symlinks each skill directory into
+Cursor Agent Skills — the same workflows as `.claude/commands/`, in `SKILL.md` format
+(`babysit/`, `brainstorm/`, `commit-and-push/`, `request-review/`). `install.sh` symlinks each skill directory into
 `~/.cursor/skills/`. When changing a command, update its `.cursor/skills/<name>/SKILL.md` twin too.
 
 ### .cursor/rules/
