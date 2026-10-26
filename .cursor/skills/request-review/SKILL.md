@@ -40,15 +40,19 @@ Read my own recent messages in `#students-mr-review` with the Slack MCP tools, a
 
 ## 4. Preview and confirm (mandatory)
 
-1. **Always** show a preview first, every time a draft is created or edited, including when you're confident in it:
-   - The exact message text in a code block, as it will be posted.
+Text written before a tool call can be collapsed out of sight, so the preview goes **inside the question itself**, never only in chat text.
+
+1. **Every** time a draft is created or edited, including when you're confident in it, call the `AskQuestion` tool and put the full preview in its `prompt`:
+   - The exact message text as it will be posted, in a code block.
    - Below it, a readable version with `@Name` in place of each `<@USER_ID>` and `@group` in place of each `<!subteam^ID>`.
-2. Only after the preview, **always** use the `AskQuestion` tool with these options:
+   - Any note that affects my decision (e.g. reviewers are a suggestion, Slack isn't authenticated).
+2. Options:
    - `Send it`
    - `Edit` (I'll describe the changes)
    - `Cancel`
-3. `Edit`: apply my changes, show the new preview, and ask again. Repeat until I choose `Send it` or `Cancel`.
+3. `Edit`: apply my changes and ask again with the new preview. Repeat until I choose `Send it` or `Cancel`.
 4. `Cancel`: stop and post nothing.
+5. Skipped or unanswered question: post nothing, and end with a final message (after the last tool call) that repeats the exact draft in a code block so I can still see and copy it.
 
 **Never** post to Slack before I choose `Send it` for the current draft. Silence, an unclear answer, or approval of an earlier draft doesn't count as approval.
 
