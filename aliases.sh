@@ -31,7 +31,13 @@ alias pp="ping 8.8.8.8"
 alias cdd="cd ~/dev"
 alias cdp="cd ~/dev/private"
 alias cdt="cd ~/dev/tmp"
-alias bym="(cd ~/dev/private/ym && git pull origin main && bun run setup)"
+
+unalias bym 2>/dev/null
+bym() {
+    local dir=~/dev/private/ym
+    [[ -d "$dir" ]] || dir=~/dev/ym
+    (cd "$dir" && git pull origin main && bun run setup)
+}
 
 # Review PR - fetch and merge PR locally
 # Usage: rpr <mr_number_or_url>
