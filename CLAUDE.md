@@ -60,7 +60,8 @@ Claude Code statusline script. Reads JSON from stdin and outputs: directory name
 Cursor CLI twin of the Claude statusline (symlinked to `~/.cursor/statusline.sh`, wired up via `statusLine` in
 `~/.cursor/cli-config.json`). Same layout, plus model params / MAX / autorun / worktree. Instead of the Claude
 5-hour quota (not in the Cursor payload), it shows monthly team spend vs. per-user limit, fetched from
-`DashboardService/GetTeamSpend` with the CLI's keychain token (`cursor-access-token`, macOS only). The result is
+`DashboardService/GetTeamSpend` with the CLI's token (keychain `cursor-access-token` on macOS,
+`~/.config/cursor/auth.json` on Linux). The result is
 cached in `~/.cache/cursor-statusline/quota.json` and refreshed in a detached background job at most every 5 min,
 because the CLI kills the script on every update and times it out after 2s. When changing shared layout, update
 both statusline scripts.

@@ -39,12 +39,13 @@ make_bar() {
 
 file_age() {
     local mtime
-    mtime=$(stat -f %m "$1" 2>/dev/null || stat -c %Y "$1" 2>/dev/null) || { echo 999999; return; }
+    # GNU first: GNU stat accepts -f (filesystem mode) and prints garbage instead of failing
+    mtime=$(stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null) || { echo 999999; return; }
     echo $(( $(date +%s) - mtime ))
 }
 
 # --- Cursor spend quota ---
-# Fetched from the Cursor dashboard API with the CLI's keychain token, cached on disk,
+# Fetched from the Cursor dashboard API with the CLI's token (macOS keychain, or auth.json on Linux), cached on disk,
 # and refreshed in the background so the status line never waits on the network.
 QUOTA_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/cursor-statusline"
 QUOTA_CACHE="$QUOTA_DIR/quota.json"
@@ -57,7 +58,9 @@ refresh_quota() {
     user=$(jq -r '.authInfo.userId // empty' "$cfg" 2>/dev/null)
     email=$(jq -r '.authInfo.email // empty' "$cfg" 2>/dev/null)
     [ -n "$team" ] && [ -n "$user" ] || return 1
-    token=$(security find-generic-password -s cursor-access-token -w 2>/dev/null) || return 1
+    token=$(security find-generic-password -s cursor-access-token -w 2>/dev/null) \
+        || token=$(jq -re '.accessToken // empty' "${XDG_CONFIG_HOME:-$HOME/.config}/cursor/auth.json" 2>/dev/null) \
+        || return 1
     body=$(jq -nc --argjson t "$team" --arg s "$email" '{teamId: $t, searchTerm: $s}')
 
     # Token goes through curl's stdin config, not argv, so it never shows up in `ps`
