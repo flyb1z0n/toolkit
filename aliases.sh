@@ -129,7 +129,8 @@ nc() {
 
   # Prompt for feature identifier (timestamp is default)
   local feature_id=""
-  read "feature_id?Feature name [$timestamp]: "
+  printf "Feature name [%s]: " "$timestamp"
+  read -r feature_id
   feature_id=${feature_id:-$timestamp}
 
   # Sanitize input: replace spaces with underscores

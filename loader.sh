@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Sourced by .zshrc on every shell open.
+# Sourced by .zshrc / .bashrc on every shell open.
 # 1. Auto-updates toolkit via background git pull (once per 24h)
 # 2. Sources aliases.sh
 

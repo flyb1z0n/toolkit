@@ -217,22 +217,23 @@ if [ -d "$RULES_SOURCE_DIR" ]; then
   done
 fi
 
-# --- Loader installation (.zshrc) ---
-LOADER_SOURCE="$SCRIPT_DIR/loader.sh"
-ZSHRC="$HOME/.zshrc"
+# --- Loader installation (.zshrc, .bashrc) ---
 LOADER_MARKER="# toolkit-loader"
 LOADER_LINE="source \"$SCRIPT_DIR/loader.sh\" $LOADER_MARKER"
 
-NAMES+=("loader.sh")
-if [ -f "$ZSHRC" ] && grep -qF "$LOADER_MARKER" "$ZSHRC"; then
-  echo "✓ loader.sh is already sourced in .zshrc"
-  STATUSES+=("up-to-date")
-else
-  echo "" >> "$ZSHRC"
-  echo "$LOADER_LINE" >> "$ZSHRC"
-  echo "✓ Added loader.sh to .zshrc"
-  STATUSES+=("installed")
-fi
+for rc_name in .zshrc .bashrc; do
+  rc_file="$HOME/$rc_name"
+  NAMES+=("loader.sh ($rc_name)")
+  if [ -f "$rc_file" ] && grep -qF "$LOADER_MARKER" "$rc_file"; then
+    echo "✓ loader.sh is already sourced in $rc_name"
+    STATUSES+=("up-to-date")
+  else
+    echo "" >> "$rc_file"
+    echo "$LOADER_LINE" >> "$rc_file"
+    echo "✓ Added loader.sh to $rc_name"
+    STATUSES+=("installed")
+  fi
+done
 
 # Print summary table
 echo ""
