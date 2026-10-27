@@ -14,9 +14,9 @@ There is no build system, test suite, or package manager. All files are plain sh
 ./install.sh
 ```
 
-Creates symlinks from `.claude/commands/*.md` → `~/.claude/commands/` and `.claude/statusline.sh` → `~/.claude/statusline.sh`, updates `~/.claude/settings.json` for the statusline, does the same for `.cursor/statusline.sh` → `~/.cursor/statusline.sh` and `~/.cursor/cli-config.json`, and appends a `source` line to `~/.zshrc` for `loader.sh`.
+Creates symlinks from `.claude/commands/*.md` → `~/.claude/commands/` and `.claude/statusline.sh` → `~/.claude/statusline.sh`, updates `~/.claude/settings.json` for the statusline, does the same for `.cursor/statusline.sh` → `~/.cursor/statusline.sh` and `~/.cursor/cli-config.json`, and appends a `source` line for `loader.sh` to both `~/.zshrc` and `~/.bashrc`.
 
-To load aliases manually, add to `.zshrc`:
+To load aliases manually, add to `.zshrc` or `.bashrc`:
 ```bash
 source "/path/to/toolkit/loader.sh"
 ```
@@ -24,7 +24,7 @@ source "/path/to/toolkit/loader.sh"
 ## Architecture
 
 ### loader.sh
-Sourced by `.zshrc` on every shell open. Does two things:
+Sourced by `.zshrc` / `.bashrc` on every shell open. Does two things:
 1. Background `git pull` once every 24 hours (tracked via `.toolkit_last_update` timestamp file)
 2. Sources `aliases.sh`
 

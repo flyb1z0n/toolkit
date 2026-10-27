@@ -63,7 +63,7 @@ Defined in `aliases.sh`, loaded automatically via `loader.sh`:
 
 ### Auto-update
 
-`loader.sh` is sourced from `.zshrc` and performs a background `git pull` once every 24 hours to keep the toolkit up to date.
+`loader.sh` is sourced from `.zshrc` / `.bashrc` and performs a background `git pull` once every 24 hours to keep the toolkit up to date.
 
 ## Installation
 
@@ -73,7 +73,7 @@ Defined in `aliases.sh`, loaded automatically via `loader.sh`:
 
 This creates symlinks from the commands in this repo to `~/.claude/commands/` (Claude Code) and from `.cursor/skills/*` and `.cursor/rules/*.mdc` to `~/.cursor/skills/` and `~/.cursor/rules/` (Cursor), making them available globally as `/babysit`, `/brainstorm`, `/commit-and-push`, and `/request-review`. If a command or skill already exists, you'll be prompted to replace or skip it.
 
-To load aliases, add this to your `.zshrc`:
+`install.sh` adds this to both `~/.zshrc` and `~/.bashrc`. To load aliases manually, add this to your `.zshrc` or `.bashrc`:
 
 ```bash
 source "/path/to/toolkit/loader.sh"
