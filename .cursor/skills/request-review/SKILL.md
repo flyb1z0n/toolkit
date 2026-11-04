@@ -19,23 +19,26 @@ Arguments (all optional, free-form): MR/PR URLs, reviewer names, extra context.
 - If nothing is found, ask me for the links. Don't guess.
 - For each MR, get its title and description so you can write a one-line summary.
 
-## 2. Match my style
+## 2. Message structure
 
-Read my own recent messages in `#students-mr-review` with the Slack MCP tools, and copy my phrasing, casing, and how I format links. If Slack history isn't available, use the channel convention:
+Always use this structure, with each part on its own line:
 
 ```
-<@REVIEWER_1> <@REVIEWER_2> PTAL: <MR_URL> short lowercase summary of what changed
+PTAL: <MR_URL>
+short lowercase summary of what changed
+cc: <@REVIEWER_1> <@REVIEWER_2>
 ```
 
-- One line per MR. For several MRs, put each on its own line, or use `also: <url> ...` for follow-ups.
-- Keep it short: the text besides mentions and links is **8 words at most** per MR (e.g. "return 400 for unreadable request bodies"). Count the words before showing the draft, and shorten it if it's over.
+- For several MRs, repeat the `PTAL:` and summary lines for each MR, then put a single `cc:` line at the end.
+- Read my own recent messages in `#students-mr-review` with the Slack MCP tools, and copy my phrasing and casing for the summary. The structure above wins over older messages that use a different layout.
+- Keep it short: the summary line is **8 words at most** per MR (e.g. "return 400 for unreadable request bodies"). Count the words before showing the draft, and shorten it if it's over.
 - The summary describes what the change does in plain words. It isn't the raw MR title, has no trailing period, and doesn't mention AI.
 - Don't add greetings, emoji, or bullet lists unless my recent messages use them.
 
 ## 3. Reviewers
 
 - Use the reviewers I named. Otherwise suggest the people I tagged most recently in the channel, and say they're a suggestion.
-- Resolve every name to a Slack user ID with Slack user search and mention them as `<@USER_ID>`. Never tag myself.
+- Resolve every name to a Slack user ID with Slack user search and mention them as `<@USER_ID>` on the `cc:` line. Never tag myself.
 - For backend MRs, tag the `@students-be-eng` user group instead of individual people: `<!subteam^S08AYHYK31A>` (shown as `@students-be-eng` in the readable preview).
 
 ## 4. Preview and confirm (mandatory)
